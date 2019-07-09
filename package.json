@@ -4,8 +4,8 @@
   "description": "simple train reservation kata project with typescript",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-ts --config=jasmine.json",
-    "jest": "jest"
+    "jasmine": "jasmine-ts --config=jasmine.json",
+    "test": "jest"
   },
   "author": "Elie NEHME",
   "license": "ISC",
