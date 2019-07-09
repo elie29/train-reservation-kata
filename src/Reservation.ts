@@ -7,3 +7,14 @@ export class Reservation {
         public readonly bookingId: string
     ) {}
 }
+
+
+export class EmptyReservation extends Reservation {
+    constructor(
+        trainId: string,
+    ) {
+        super(trainId, [], "");
+    }
+}
+
+

@@ -1,5 +1,5 @@
 import {ReservationRequest} from "./ReservationRequest";
-import {Reservation} from "./Reservation";
+import {EmptyReservation, Reservation} from "./Reservation";
 import {BookingReferenceService} from "./BookingReferenceService";
 import {TrainDataService} from "./TrainDataService";
 import {Seat} from "./Seat";
@@ -14,13 +14,17 @@ export class TicketOffice {
         const train = this.trainDataService.getInfo(request.trainId);
 
         if(! train) {
-            return new Reservation(request.trainId, [], "");
+            return new EmptyReservation(request.trainId);
         }
 
         const refId = this.bookingReferenceService.generateReference();
-        const firstSeatKey = Object.keys(train.seats)[0];
-        let firstSeat = train.seats[firstSeatKey];
-        const seat = new Seat(firstSeat.coach, firstSeat.seat_number);
+
+        const seatKeys = Object.keys(train.seats);
+        const firstAvailableSeatKey = seatKeys.filter(seatKey => ! train.seats[seatKey].booking_reference)[0];
+        let firstAvailableSeat = train.seats[firstAvailableSeatKey];
+        const seat = new Seat(firstAvailableSeat.coach, firstAvailableSeat.seat_number);
+
+        this.trainDataService.reserve(request.trainId, [seat], refId);
         return new Reservation(request.trainId, [seat], refId);
     }
 }
