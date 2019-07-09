@@ -1,15 +1,15 @@
 import { Seat } from "./Seat";
 
-interface TrainDataService {
+export interface TrainDataService {
   reserve(trainId: string, seats: Seat[], bookingReference: string): boolean;
   getInfo(trainId: string): TrainDataResponse
 }
 
 
-interface TrainDataResponse {
+export interface TrainDataResponse {
     seats: {
         [seatId: string]: {
-            bookingReference: string,
+            booking_reference: string,
             seat_number: number,
             coach: string
         }
