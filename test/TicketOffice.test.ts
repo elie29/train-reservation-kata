@@ -13,7 +13,7 @@ describe("TcketOffice", () => {
 
     beforeEach(() => {
         const fakeBookingReferenceService = new FakeBookingReferenceService(["ref1", "ref2", "ref3"]);
-        const fakeTrainDataService = new FakeTrainDataService(TRAINS);
+        const fakeTrainDataService = new FakeTrainDataService(JSON.parse(JSON.stringify(TRAINS)));
         ticketOffice = new TicketOffice(fakeBookingReferenceService, fakeTrainDataService);
     });
 
@@ -64,13 +64,10 @@ class FakeTrainDataService implements TrainDataService {
     }
 
     reserve(trainId: string, seats: Seat[], bookingReference: string): boolean {
-        console.log(seats);
         seats.forEach(seat => {
             this.trains[trainId].seats[seat.seatNumber + seat.coach].booking_reference = bookingReference;
         });
         return true;
     }
-
-
 }
 
